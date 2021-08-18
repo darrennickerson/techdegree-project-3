@@ -16,8 +16,8 @@ const creditCardField = document.querySelector("#cc-num");
 const creditCardZip = document.querySelector("#zip");
 const creditCardCVV = document.querySelector("#cvv");
 const cvvReg = /^\d{3}$/;
-const creditCardReg = /^\d{13,16}$/g;
-const zipReg = /^\w{5}$/g;
+const creditCardReg = /^\d{13,16}$/;
+const zipReg = /^\w{5}$/;
 const nameField = document.querySelector("#name");
 const emailRegex = /^\w+@\w+\.\w+$/;
 const nameRegex = /^\w{3,}$/;
@@ -40,16 +40,20 @@ otherJobRole.style.display = "none";
 jobTitle.addEventListener("change", () => {
   if (jobTitle.value === "other") {
     otherJobRole.style.display = "block";
+  } else {
+    otherJobRole.style.display = "none";
   }
 });
 
 // Tshirt section
 
-tshirtColor.style.display = "none";
+tshirtColor.lastElementChild.disabled = true;
 
 tshirtDesign.addEventListener("change", (e) => {
-  tshirtColor.style.display = "block";
+  tshirtColor.lastElementChild.disabled = false;
+  tshirtColor.lastElementChild.selectedIndex = 0;
   colorSelect.options[0].textContent = "Pick a color";
+
   if (tshirtDesign.value === "js puns") {
     for (let i = 0; i < colorSelect.length; i++) {
       if (colorSelect.options[i].dataset.theme === "heart js") {
@@ -104,6 +108,7 @@ activityFields.addEventListener("change", (e) => {
       dayAndTime = addOnActivites[i].children[0].dataset.dayAndTime;
       if (dayAndTime === selectedTime) {
         addOnActivites[i].className = "";
+        addOnActivites[i].children[0].disabled = false;
       }
     }
   }
@@ -122,6 +127,7 @@ activityFields.addEventListener("change", (e) => {
 // Payment Options ShowHide function located in helpers.js
 paypalDiv.style.display = "none";
 bitcoinDiv.style.display = "none";
+paymentMethod.selectedIndex = 1;
 paymentMethod.addEventListener("change", () => {
   showHide(paymentMethod.value);
 });

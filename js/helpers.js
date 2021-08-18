@@ -75,7 +75,6 @@ const validateFields = (fieldName, reg) => {
 };
 const formValidation = () => {
   formElement[0].addEventListener("submit", (e) => {
-    e.preventDefault();
     validateFields(emailField, emailRegex);
 
     // Only check the validation for the credit card if that payment is selected
@@ -99,6 +98,9 @@ const formValidation = () => {
     } else {
       activityFields.lastElementChild.style.display = "none";
       activityFields.parentElement.classList.remove("not-valid");
+    }
+    if (document.querySelectorAll(".not-valid").length > 0) {
+      e.preventDefault();
     }
   });
   // call validateFields before the keyup so that the error messaging starts before keyup
