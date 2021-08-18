@@ -1,19 +1,3 @@
-const clearChoices = () => {
-  let inputs = document.getElementsByTagName("input");
-  let selections = document.getElementsByTagName("select");
-
-  for (let i = 0; i < inputs.length; i++) {
-    if (inputs[i].type === "checkbox") {
-      inputs[i].checked = false;
-    } else {
-      inputs[i].value = "";
-    }
-  }
-  for (let i = 0; i < selections.length; i++) {
-    selections[i].selectedIndex = 0;
-  }
-};
-
 clearChoices();
 
 // Variable Decloration
@@ -36,13 +20,15 @@ const creditCardReg = /^\d{13,16}$/g;
 const zipReg = /^\w{5}$/g;
 const nameField = document.querySelector("#name");
 const emailRegex = /^\w+@\w+\.\w+$/;
-const nameRegex = /^\w+$/;
+const nameRegex = /^\w{3,}$/;
 const emailField = document.querySelector("#email");
 const formElement = document.getElementsByTagName("form");
 const paymentMethod = document.querySelector("#payment");
 const paypalDiv = document.querySelector(".paypal");
 const bitcoinDiv = document.querySelector(".bitcoin");
 const creditCardDiv = document.querySelector("#credit-card");
+const addOnActivites = document.querySelector("#activities-box").children;
+const nameHint = document.querySelector("#name-hint");
 
 // Focus on the first input
 
@@ -96,6 +82,32 @@ tshirtDesign.addEventListener("change", (e) => {
 //Conference Selection
 
 activityFields.addEventListener("change", (e) => {
+  if (e.target.checked === true) {
+    let selectedTime = e.target.dataset.dayAndTime;
+    activityFields.lastElementChild.style.display = "none";
+    activityFields.parentElement.classList.remove("not-valid");
+    for (let i = 0; i < addOnActivites.length; i++) {
+      let dayAndTime = addOnActivites[i].children[0].dataset.dayAndTime;
+      if (dayAndTime === selectedTime) {
+        addOnActivites[i].className = "disabled";
+        addOnActivites[i].children[0].disabled = true;
+        e.target.parentElement.classList.remove("disabled");
+        e.target.disabled = false;
+      }
+    }
+  }
+
+  if (e.target.checked === false) {
+    selectedTime = e.target.dataset.dayAndTime;
+
+    for (let i = 0; i < addOnActivites.length; i++) {
+      dayAndTime = addOnActivites[i].children[0].dataset.dayAndTime;
+      if (dayAndTime === selectedTime) {
+        addOnActivites[i].className = "";
+      }
+    }
+  }
+
   let eventCost = e.target.dataset.cost;
   eventCost = parseInt(eventCost);
   if (e.target.checked == true) {
@@ -104,11 +116,10 @@ activityFields.addEventListener("change", (e) => {
   } else {
     totalCost -= eventCost;
     activityCost.innerHTML = `Total: $${totalCost}`;
-    console.log(totalCost);
   }
 });
 
-// Payment Options ShowHide function located in functions.js
+// Payment Options ShowHide function located in helpers.js
 paypalDiv.style.display = "none";
 bitcoinDiv.style.display = "none";
 paymentMethod.addEventListener("change", () => {
@@ -126,22 +137,6 @@ for (let i = 0; i < checkboxElements.length; i++) {
   });
 }
 
-// Validation name email register for activities card number zipcode cvv form
-
-const formValidation = () => {
-  formElement[0].addEventListener("submit", (e) => {
-    e.preventDefault();
-    validateFields(nameField, nameRegex);
-    validateFields(emailField, emailRegex);
-    // Only check the validation for the credit card if that payment is selected
-    if (paymentMethod.value === "credit-card") {
-      validateFields(creditCardField, creditCardReg);
-      validateFields(creditCardZip, zipReg);
-      validateFields(creditCardCVV, cvvReg);
-    }
-  });
-};
-
-// Credit Card Validation
+// validate form elements
 
 formValidation();
