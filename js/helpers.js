@@ -94,10 +94,10 @@ const formValidation = () => {
     }
     if (checked === 0) {
       activityFields.lastElementChild.style.display = "block";
-      activityFields.parentElement.className = "not-valid";
+      activityFields.classList.add("not-valid");
     } else {
       activityFields.lastElementChild.style.display = "none";
-      activityFields.parentElement.classList.remove("not-valid");
+      activityFields.classList.remove("not-valid");
     }
     if (document.querySelectorAll(".not-valid").length > 0) {
       e.preventDefault();
