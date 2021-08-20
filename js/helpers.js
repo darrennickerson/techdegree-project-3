@@ -95,7 +95,7 @@ const formValidation = () => {
     if (checked === 0) {
       activityFields.lastElementChild.style.display = "block";
       activityFields.classList.add("not-valid");
-    } else {
+    } else if (checked > 0) {
       activityFields.lastElementChild.style.display = "none";
       activityFields.classList.remove("not-valid");
     }
@@ -109,12 +109,16 @@ const formValidation = () => {
   validateFields(emailField, emailRegex);
 
   // Realtime error messaging and conditional messages
-
+  document.querySelector("#email-hint").innerText = "Email cannot be blank";
   formElement[0].addEventListener("keyup", () => {
     validateFields(nameField, nameRegex);
     validateFields(emailField, emailRegex);
     if (nameField.value.length > 0 && nameField.value.length < 3) {
       nameHint.innerText = "Name must be 3 or more characters long.";
+    }
+    if (emailField.value.length > 0) {
+      document.querySelector("#email-hint").innerText =
+        "Email must be formatted correctly";
     }
   });
 };

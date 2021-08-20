@@ -122,6 +122,17 @@ activityFields.addEventListener("change", (e) => {
     totalCost -= eventCost;
     activityCost.innerHTML = `Total: $${totalCost}`;
   }
+  let checked = 0;
+  for (let i = 0; i < addOnActivites.length; i++) {
+    if (addOnActivites[i].children[0].checked) {
+      checked += 1;
+    }
+  }
+  if (checked > 0) {
+    activityFields.classList.remove("not-valid");
+  } else {
+    activityFields.classList.add("not-valid");
+  }
 });
 
 // Payment Options ShowHide function located in helpers.js
