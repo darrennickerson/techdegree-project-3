@@ -130,8 +130,10 @@ activityFields.addEventListener("change", (e) => {
   }
   if (checked > 0) {
     activityFields.classList.remove("not-valid");
+    activityFields.lastElementChild.style.display = "none";
   } else {
     activityFields.classList.add("not-valid");
+    activityFields.lastElementChild.style.display = "block";
   }
 });
 
